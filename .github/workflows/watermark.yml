@@ -41,4 +41,7 @@ jobs:
           TEXT_STYLE: ${{ github.event.client_payload.textStyle }}
           TEXT_SIZE: ${{ github.event.client_payload.textSize }}
           OP: ${{ github.event.client_payload.op }}
+          # New-style packed options (worker sends ONE pipe-packed string —
+          # GitHub caps client_payload at 10 properties):
+          OPTS: ${{ github.event.client_payload.opts }}
         run: bash scripts/watermark.sh
