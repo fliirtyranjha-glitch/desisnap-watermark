@@ -1,0 +1,31 @@
+name: Watermark video
+
+# Triggered by repository_dispatch from the DesiSnap worker. The payload
+# carries two short-lived signed URLs (source download + destination upload)
+# so this repository needs NO credentials at all.
+on:
+  repository_dispatch:
+    types: [watermark]
+
+permissions: {}
+
+concurrency:
+  group: wm-${{ github.event.client_payload.dstKey }}
+  cancel-in-progress: false
+
+jobs:
+  watermark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Watermark + upload
+        env:
+          SRC_URL: ${{ github.event.client_payload.srcUrl }}
+          DST_URL: ${{ github.event.client_payload.dstUrl }}
+          LOGO_URL: ${{ github.event.client_payload.logoUrl }}
+          SITE_NAME: ${{ github.event.client_payload.siteName }}
+          SRC_EXT: ${{ github.event.client_payload.srcExt }}
+          OUT_NAME: ${{ github.event.client_payload.name }}
+        run: bash scripts/watermark.sh
