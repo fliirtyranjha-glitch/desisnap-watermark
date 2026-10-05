@@ -34,4 +34,11 @@ jobs:
           SITE_NAME: ${{ github.event.client_payload.siteName }}
           SRC_EXT: ${{ github.event.client_payload.srcExt }}
           OUT_NAME: ${{ github.event.client_payload.name }}
+          LOGO_POS: ${{ github.event.client_payload.logoPos }}
+          LOGO_MOTION: ${{ github.event.client_payload.logoMotion }}
+          TEXT_POS: ${{ github.event.client_payload.textPos }}
+          TEXT_MOTION: ${{ github.event.client_payload.textMotion }}
+          TEXT_STYLE: ${{ github.event.client_payload.textStyle }}
+          TEXT_SIZE: ${{ github.event.client_payload.textSize }}
+          OP: ${{ github.event.client_payload.op }}
         run: bash scripts/watermark.sh
