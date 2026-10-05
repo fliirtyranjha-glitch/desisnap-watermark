@@ -26,6 +26,14 @@ LOGO_URL="${LOGO_URL:-}"
 SITE_NAME="${SITE_NAME:-}"
 SRC_EXT="${SRC_EXT:-mp4}"
 OUT_NAME="${OUT_NAME:-watermarked}"
+
+# Style options may arrive as ONE pipe-packed string (the worker packs them
+# because GitHub caps client_payload at 10 properties):
+#   OPTS = "logoPos|logoMotion|textPos|textMotion|textStyle|textSize|op"
+# Individual vars (LOGO_POS etc.) still work for local testing; OPTS wins.
+if [ -n "${OPTS:-}" ]; then
+  IFS='|' read -r LOGO_POS LOGO_MOTION TEXT_POS TEXT_MOTION TEXT_STYLE TEXT_SIZE OP <<< "$OPTS"
+fi
 LOGO_POS="${LOGO_POS:-tr}"
 LOGO_MOTION="${LOGO_MOTION:-static}"
 TEXT_POS="${TEXT_POS:-br}"
